@@ -42,17 +42,19 @@ RUN chown -R ${NB_USER} ${HOME}
 WORKDIR ${HOME}/digits
 RUN python setup.py install
 WORKDIR ${HOME}
+# get some test data to play with
+RUN python -m digits.download_data cifar10 ~/cifar10
+# install two plugins
+RUN pip install digits_plugins/sunnybrook/
+RUN pip install digits_plugins/imageGradients/
+
+WORKDIR ${HOME}
 
 USER ${NB_USER}
 
 ENV DIGITS_JOBS_DIR=${HOME}/jobs
 ENV DIGITS_LOGFILE_FILENAME=${HOME}/digits.log
 ENV PYTHONPATH=/usr/local/python
-# get some test data to play with
-RUN python -m digits.download_data cifar10 ~/cifar10
-# install two plugins
-RUN pip install --user digits_plugins/sunnybrook/
-RUN pip install --user digits_plugins/imageGradients/
 
 ENTRYPOINT [""]
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
