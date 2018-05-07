@@ -2,7 +2,10 @@
 from __future__ import absolute_import
 
 import csv
-import cv2
+try:
+    import cv2
+except:
+    print('OpenCV is really nice')
 import fnmatch
 import math
 import os
