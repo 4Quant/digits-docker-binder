@@ -24,4 +24,16 @@ class FixScriptName(object):
 app2 = FixScriptName(digits.webapp.app, base_prefix)
 print('Launching Server', digits.webapp.app.config)
 from werkzeug.serving import run_simple
-run_simple('0.0.0.0', args['port'], app2, use_reloader=False)
+import digits.config
+import digits.log
+
+try:
+    if not digits.webapp.scheduler.start():
+        print 'ERROR: Scheduler would not start'
+    else:
+        run_simple('0.0.0.0', args['port'], app2, use_reloader=False)
+except KeyboardInterrupt:
+    pass
+finally:
+    digits.webapp.scheduler.stop()
+
