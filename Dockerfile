@@ -15,7 +15,7 @@ RUN adduser --disabled-password \
 
 USER root
 # install python3 and jupyter
-RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common curl graphviz 
+RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common curl graphviz
 
 RUN add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && apt-get install -y --no-install-recommends \
@@ -48,8 +48,11 @@ USER ${NB_USER}
 ENV DIGITS_JOBS_DIR=${HOME}/jobs
 ENV DIGITS_LOGFILE_FILENAME=${HOME}/digits.log
 ENV PYTHONPATH=/usr/local/python
-
+# get some test data to play with
 RUN python -m digits.download_data cifar10 ~/cifar10
+# install two plugins
+RUN pip install --user digits_plugins/sunnybrook/
+RUN pip install --user digits_plugins/imageGradients/
 
 ENTRYPOINT [""]
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
