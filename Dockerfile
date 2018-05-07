@@ -37,7 +37,7 @@ RUN jupyter serverextension enable --py nbdlstudioproxy
 RUN jupyter nbextension     install --py nbdlstudioproxy
 RUN jupyter nbextension     enable --py nbdlstudioproxy
 
-
+RUN cp ${HOME}/4q.ico ${HOME}/digits/digits/static/images/nvidia.ico
 WORKDIR ${HOME}/digits
 RUN python setup.py install
 
