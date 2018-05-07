@@ -21,6 +21,7 @@ class FixScriptName(object):
     def __call__(self, environ, start_response):
         environ['SCRIPT_NAME'] = self.prefix
         return self.app(environ, start_response)
+digits.webapp.app.jinja_env.globals['username'] = 'binder_user'
 app2 = FixScriptName(digits.webapp.app, base_prefix)
 print('Launching Server', digits.webapp.app.config)
 from werkzeug.serving import run_simple
