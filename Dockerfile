@@ -37,7 +37,9 @@ RUN jupyter serverextension enable --py nbdlstudioproxy
 RUN jupyter nbextension     install --py nbdlstudioproxy
 RUN jupyter nbextension     enable --py nbdlstudioproxy
 
-RUN cp ${HOME}/4q.ico ${HOME}/digits/digits/static/images/nvidia.ico
+RUN mv ${HOME}/4q.ico ${HOME}/digits/digits/static/images/nvidia.ico
+# move the layout with fixed links
+RUN mv ${HOME}/layout.html ${HOME}/digits/digits/templates/layout.html
 WORKDIR ${HOME}/digits
 RUN python setup.py install
 
