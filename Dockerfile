@@ -15,7 +15,7 @@ RUN adduser --disabled-password \
 
 USER root
 # install python3 and jupyter
-RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common curl
+RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common curl graphviz 
 
 RUN add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && apt-get install -y --no-install-recommends \
