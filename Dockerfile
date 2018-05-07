@@ -37,19 +37,22 @@ RUN jupyter serverextension enable --py nbdlstudioproxy
 RUN jupyter nbextension     install --py nbdlstudioproxy
 RUN jupyter nbextension     enable --py nbdlstudioproxy
 
-RUN chown -R ${NB_USER} ${HOME}
 
 WORKDIR ${HOME}/digits
 RUN python setup.py install
+
+# install two plugins
+WORKDIR ${HOME}/digits_plugins/sunnybrook/
+RUN python setup.py install
+WORKDIR ${HOME}/digits_plugins/imageGradients/
+RUN python setup.py install
+
 WORKDIR ${HOME}
 # get some test data to play with
 RUN python -m digits.download_data cifar10 ~/cifar10
-# install two plugins
-RUN pip install digits_plugins/sunnybrook/
-RUN pip install digits_plugins/imageGradients/
+RUN chown -R ${NB_USER} ${HOME}
 
 WORKDIR ${HOME}
-
 USER ${NB_USER}
 
 ENV DIGITS_JOBS_DIR=${HOME}/jobs
