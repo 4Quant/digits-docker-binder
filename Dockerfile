@@ -49,5 +49,7 @@ ENV DIGITS_JOBS_DIR=${HOME}/jobs
 ENV DIGITS_LOGFILE_FILENAME=${HOME}/digits.log
 ENV PYTHONPATH=/usr/local/python
 
+RUN python -m digits.download_data cifar10 ~/cifar10
+
 ENTRYPOINT [""]
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
