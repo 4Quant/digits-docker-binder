@@ -41,7 +41,7 @@ RUN mv ${HOME}/4q.ico ${HOME}/digits/digits/static/images/nvidia.ico
 # move the layout with fixed links
 RUN mv ${HOME}/layout.html ${HOME}/digits/digits/templates/layout.html
 WORKDIR ${HOME}/digits
-RUN pip2 install tensorflow==1.2.1 --upgrade
+RUN pip2 install tensorflow==1.2.1
 RUN python setup.py install
 
 # install two plugins
