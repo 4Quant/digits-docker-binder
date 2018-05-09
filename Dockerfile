@@ -41,6 +41,7 @@ RUN mv ${HOME}/4q.ico ${HOME}/digits/digits/static/images/nvidia.ico
 # move the layout with fixed links
 RUN mv ${HOME}/layout.html ${HOME}/digits/digits/templates/layout.html
 WORKDIR ${HOME}/digits
+RUN pip2 install opencv-python
 RUN pip2 install tensorflow==1.2.1
 RUN python setup.py install
 
@@ -55,12 +56,23 @@ WORKDIR ${HOME}
 RUN python -m digits.download_data cifar10 ~/cifar10
 RUN chown -R ${NB_USER} ${HOME}
 
-WORKDIR ${HOME}
 USER ${NB_USER}
-
+WORKDIR ${HOME}
+# download sunnybrook data
+RUN mkdir ${HOME}/sunnybrook
+WORKDIR ${HOME}/sunnybrook
+RUN curl 'http://www.cardiacatlas.org/share/download.php?id=3&token=WgD8N1RrY2QvAL245wTPMCAeSAcRTjJG&download' -o dicoms.zip
+RUN unzip dicoms.zip
+RUN rm dicoms.zip
+RUN curl 'http://www.cardiacatlas.org/share/download.php?id=2&token=IlxjOeV7ZviYLTqP627LmqqVHtyUuuK3&download' -o contours.zip
+RUN unzip contours.zip
+RUN rm contours.zip
+WORKDIR ${HOME}
+# setup environment
 ENV DIGITS_JOBS_DIR=${HOME}/jobs
 ENV DIGITS_LOGFILE_FILENAME=${HOME}/digits.log
 ENV PYTHONPATH=/usr/local/python
+
 
 ENTRYPOINT [""]
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
