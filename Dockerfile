@@ -54,10 +54,7 @@ RUN python setup.py install
 WORKDIR ${HOME}
 # get some test data to play with
 RUN python -m digits.download_data cifar10 ~/cifar10
-RUN chown -R ${NB_USER} ${HOME}
 
-USER ${NB_USER}
-WORKDIR ${HOME}
 # download sunnybrook data
 RUN mkdir ${HOME}/sunnybrook
 WORKDIR ${HOME}/sunnybrook
@@ -67,6 +64,9 @@ RUN rm dicoms.zip
 RUN curl 'http://www.cardiacatlas.org/share/download.php?id=2&token=IlxjOeV7ZviYLTqP627LmqqVHtyUuuK3&download' -o contours.zip
 RUN unzip contours.zip
 RUN rm contours.zip
+# fix permissions and change user
+RUN chown -R ${NB_USER} ${HOME}
+USER ${NB_USER}
 WORKDIR ${HOME}
 # setup environment
 ENV DIGITS_JOBS_DIR=${HOME}/jobs
